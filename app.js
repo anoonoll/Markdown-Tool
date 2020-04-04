@@ -1,11 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
+var express = requirea('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var validator = require('express-validator');
+var createError = require('http-errors');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var index = require('./routes/index');
+var login = require('./routes/login');
+var add = require('./routes/add');
+var mark = require('./routes/mark');
 
 var app = express();
 
@@ -18,9 +23,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(validator());
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+var session_opt = {
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60 * 60 * 1000}
+};
+
+app.use('/login', login);
+app.use('/add', add);
+app.use('/mark', mark);
+app.use('/', index); //最後に追加
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
