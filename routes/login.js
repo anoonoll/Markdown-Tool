@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var mysql = require('mysql');
+const { check, validationResult } = require('express-validator');
 
 var knex = require('knex')({
     client: 'mysql',
@@ -29,11 +30,18 @@ router.get('/', (req, res, next) => {
     res.render('login', data);
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', 
+
+[
+    check('username', 'NAMEは必ず入力して下さい。').notEmpty(),
+    check('password', 'PASSWORDは必ず入力して下さい。').notEmpty()
+],
+
+(req, res, next) => {
     var request = req;
     var response = res;
-    req.check('name', 'NAMEは必ず入力して下さい。').notEmpty();
-    req.check('password', 'PASSWORDは必ず入力して下さい。').notEmpty();
+
+    
     req.getValidationResult().then((result) => {
         if (!result.isEmpty()) {
             var content = '<ul class="error">';
