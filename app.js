@@ -1,10 +1,11 @@
-var express = requirea('express');
+var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var validator = require('express-validator');
+//var validator = require('express-validator');
+const { check, validationResult } = require('express-validator');
 var createError = require('http-errors');
 
 var index = require('./routes/index');
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(validator());
+//app.use(validator());
 
 var session_opt = {
   secret: 'keyboard cat',
@@ -31,6 +32,7 @@ var session_opt = {
   saveUninitialized: false,
   cookie: { maxAge: 60 * 60 * 1000}
 };
+app.use(session(session_opt));
 
 app.use('/login', login);
 app.use('/add', add);

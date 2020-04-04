@@ -4,7 +4,7 @@ var router = express.Router();
 var mysql = require('mysql');
 
 var knex = require('knex')({
-    dialect: 'mysql',
+    client: 'mysql',
     connection: {
         host: 'localhost',
         user: 'root',
@@ -16,7 +16,7 @@ var knex = require('knex')({
 
 var Bookshelf = require('bookshelf')(knex);
 
-Bookshelf.plugin('pagination');
+//Bookshelf.plugin('pagination');
 
 var User = Bookshelf.Model.extend({
     tableName: 'users'

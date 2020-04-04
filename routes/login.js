@@ -4,7 +4,7 @@ var router = express.Router();
 var mysql = require('mysql');
 
 var knex = require('knex')({
-    dialect: 'mysql',
+    client: 'mysql',
     connection: {
         host    : 'localhost',
         user    : 'root',
@@ -26,12 +26,12 @@ router.get('/', (req, res, next) => {
         content: {name: '', password: ''},
         form: '名前とパスワードを入力下さい。'
     }
-    response.render('login', data);
+    res.render('login', data);
 })
 
 router.post('/', (req, res, next) => {
     var request = req;
-    var respose = res;
+    var response = res;
     req.check('name', 'NAMEは必ず入力して下さい。').notEmpty();
     req.check('password', 'PASSWORDは必ず入力して下さい。').notEmpty();
     req.getValidationResult().then((result) => {
@@ -76,4 +76,4 @@ router.post('/', (req, res, next) => {
     })
 });
 
-module.exports;
+module.exports = router;

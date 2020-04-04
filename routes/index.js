@@ -4,7 +4,7 @@ var router = express.Router();
 var mysql = require('mysql');
 
 var knex = require('knex')({
-  dialect: 'mysql',
+  client: 'mysql',
   connection: {
     host    : 'localhost',
     user    : 'root',
@@ -14,15 +14,15 @@ var knex = require('knex')({
   }
 });
 
-var Bookshelf = requrie('bookshelf')(knex);
+var Bookshelf = require('bookshelf')(knex);
 
-Bookshelf.plugin('pagination');
+//Bookshelf.plugin('pagination');
 
 var User = Bookshelf.Model.extend({
   tableName: 'users'
 });
 
-var Markdata = Bookshelf.model.extend({
+var Markdata = Bookshelf.Model.extend({
   tableName    : 'Markdata',
   hasTimestamps: true,
   user         : function() {
@@ -33,7 +33,7 @@ var Markdata = Bookshelf.model.extend({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if (req.session == null) {
+  if (req.session.login == null) {
     res.redirect('/login');
     return;
   }
