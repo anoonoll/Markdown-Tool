@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1><%= title %></h1>
+        </header>
+        <div role="main">
+            <p><%- content %></p>
+            <form method="post" action="/login">
+                <table>
+                    <tr>
+                        <td>NAME</td>
+                        <td><input type="text" name="name" value="<%= form.name %>"></td>
+                    </tr>
+                    <tr>
+                        <td>PASSWORD</td>
+                        <td><input type="password" name="password" value="<%= form.password %>"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="ログイン"></td>
+                    </tr>
+                </table>
+            </form>
+            <p><a href="/">&lt;&lt; Top へ戻る</a></p>
+        </div>
+    </body>
+</html>
