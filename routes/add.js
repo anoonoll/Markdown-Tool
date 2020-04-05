@@ -10,7 +10,7 @@ var knex = require('knex')({
         user: 'root',
         password: '',
         database: 'my-nodeapp-db',
-        charset: 'utf-8'
+        charset: 'utf8'
     }
 });
 
@@ -38,10 +38,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    var today = new Date();
     var rec = {
         title: req.body.title,
         content: req.body.content,
-        user_id: req.session.login.id
+        user_id: req.session.login.id,
+        created_at: today,
+        updated_at: today
     }
     new Markdata(rec).save().then((model) => {
         res.redirect('/');

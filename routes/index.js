@@ -10,7 +10,7 @@ var knex = require('knex')({
     user    : 'root',
     password: '',
     database: 'my-nodeapp-db',
-    charset : 'utf-8'
+    charset : 'utf8'
   }
 });
 
@@ -23,7 +23,7 @@ var User = Bookshelf.Model.extend({
 });
 
 var Markdata = Bookshelf.Model.extend({
-  tableName    : 'Markdata',
+  tableName    : 'markdata',
   hasTimestamps: true,
   user         : function() {
     return this.belongsTo(User);
@@ -62,7 +62,7 @@ router.post('/', function(req, res, next) {
         login: req.session.login,
         message: '※"' + req.body.find + '" で検索された最近の投稿データ',
         form: req.body,
-        conent: collection.toArray() 
+        content: collection.toArray() 
       }
       res.render('index', data);
     })

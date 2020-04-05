@@ -58,7 +58,7 @@ router.post('/:id', (req, res, next) => {
     var obj = new Markdata({id:req.params.id})
       .save({content: req.body.source}, {patch: true})
       .then((model) => {
-          makepage(request, respose, mode, false)
+          makepage(request, respose, model, false)
       });
 });
 
@@ -78,7 +78,8 @@ function makepage(req, res, model, flg) {
         id: req.params.id,
         head: model.attributes.title,
         footer: footer,
-        content: model.attributes.content
+        content: model.attributes.content,
+        source: model.attributes.content
     };
     res.render('mark', data);
 };
