@@ -42,7 +42,7 @@ router.post('/',
     var request = req;
     var response = res;
 
-    const errors = validationResult(req);
+    const errors = validationResult(request);
     
     if (!errors.isEmpty()) {
         var content = '<ul class="error">';
@@ -64,22 +64,13 @@ router.post('/',
         User.query({where: {name: nm}, andWhere: {password: pw}})
             .fetch()
             .then((model) => {
-                if (model == null) {
-                    var data = {
-                        title: '再入力',
-                        content: '<p class="error">名前またはパスワードが違います</p>',
-                        form: req.body
-                    };
-                    response.render('login', data);
-                } else {
-                    request.session.login = model.attributes;
-                    var data = {
-                        title: 'Login',
-                        content: '<p>ログインしました!<br>トップページに戻ってメッセージを送信下さい。</p>',
-                        form: req.body
-                    }
-                    response.render('login', data);
+                request.session.login = model.attributes;
+                var data = {
+                    title: 'Login',
+                    content: '<p>ログインしました!<br>トップページに戻ってメッセージを送信下さい。</p>',
+                    form: req.body
                 }
+                response.render('login', data);
             }).catch((error) => {
                 var data = {
                   title: '再入力',
