@@ -54,11 +54,11 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/:id', (req, res, next) => {
     var request = req;
-    var respose = res;
+    var response = res;
     var obj = new Markdata({id:req.params.id})
       .save({content: req.body.source}, {patch: true})
       .then((model) => {
-          makepage(request, respose, model, false)
+          makepage(request, response, model, false)
       });
 });
 
@@ -71,14 +71,14 @@ function makepage(req, res, model, flg) {
         var dstr2 = d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate();
         footer = '(created: ' + dstr1 + ', updated:' + dstr2 + ')'; 
     } else {
-        footer = '(Updatting date and time information...)'
+        footer = '(Updating date and time information...)'
     }
     var data = {
         title: 'Markdown',
         id: req.params.id,
         head: model.attributes.title,
         footer: footer,
-        content: model.attributes.content,
+        content: markdown.render(model.attributes.content),
         source: model.attributes.content
     };
     res.render('mark', data);
